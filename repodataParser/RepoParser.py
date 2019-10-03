@@ -1,5 +1,5 @@
-from urllib2 import urlopen
-from StringIO import StringIO
+from six.moves.urllib.request import urlopen
+from six import BytesIO
 from gzip import GzipFile
 from xml.dom import minidom
 
@@ -25,7 +25,7 @@ class Parser:
 
     def __decompress(self):
         'Attempts to decompress a string as Gzip'
-        buf = StringIO(self.res)
+        buf = BytesIO(self.res)
         f = GzipFile(fileobj=buf)
         try:
             self.content = f.read()
@@ -34,7 +34,7 @@ class Parser:
 
     def __dom(self):
         'get the XML dom object'
-        self.dom = minidom.parse(StringIO(self.content))
+        self.dom = minidom.parse(BytesIO(self.content))
 
     def __elements(self):
         'Get a Element by ID name'
